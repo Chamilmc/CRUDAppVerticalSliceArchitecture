@@ -24,30 +24,6 @@ Validation
 Endpoint
 Data logic
 Instead of separating code into traditional layers like Controllers, Services, and Repositories, each feature is self-contained.
-
-Example structure:
-
-src
- ├── Features
- │   └── Games
- │        ├── CreateGame
- │        │    ├── CreateGameCommand.cs
- │        │    ├── CreateGameHandler.cs
- │        │    └── CreateGameEndpoint.cs
- │        │
- │        ├── GetAllGames
- │        │    ├── GetAllGamesQuery.cs
- │        │    ├── GetAllGamesHandler.cs
- │        │    └── GetAllGamesEndpoint.cs
- │        │
- │        ├── UpdateGame
- │        │
- │        └── DeleteGame
- │
- ├── Data
- │   └── AppDbContext.cs
- │
- └── Program.cs
  
 ⚙️ Technologies Used
 .NET 10

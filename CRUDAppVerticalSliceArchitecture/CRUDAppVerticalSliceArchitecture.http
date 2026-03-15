@@ -1,0 +1,6 @@
+@CRUDAppVerticalSliceArchitecture_HostAddress = http://localhost:5105
+
+GET {{CRUDAppVerticalSliceArchitecture_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

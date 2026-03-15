@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="CRUDAppVerticalSliceArchitecture.Core/CRUDAppVerticalSliceArchitecture.Core.csproj" />
+  <Project Path="CRUDAppVerticalSliceArchitecture.Infrastructure/CRUDAppVerticalSliceArchitecture.Infrastructure.csproj" />
+  <Project Path="CRUDAppVerticalSliceArchitecture/CRUDAppVerticalSliceArchitecture.csproj" />
+</Solution>

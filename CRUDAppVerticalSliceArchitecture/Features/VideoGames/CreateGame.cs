@@ -1,8 +1,7 @@
-﻿using CRUDAppVerticalSliceArchitecture.Core.Entities;
+﻿using Carter;
+using CRUDAppVerticalSliceArchitecture.Core.Entities;
 using CRUDAppVerticalSliceArchitecture.Infrastructure.Contexts;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using static CRUDAppVerticalSliceArchitecture.Features.VideoGames.CreateGame;
 
 namespace CRUDAppVerticalSliceArchitecture.Features.VideoGames;
 
@@ -29,16 +28,16 @@ public static class CreateGame
             return new Response(videoGame.Id, videoGame.Title, videoGame.Genre, videoGame.ReleaseYear);
         }
     }
-}
 
-[ApiController]
-[Route("api/games")]
-public class CreateGameController(ISender sender) : ControllerBase
-{
-    [HttpPost]
-    public async Task<ActionResult<Response>> CreateGame(Command command)
+    public class Endpont : ICarterModule
     {
-        var result = await sender.Send(command);
-        return Created($"/a[i/games/{result.Id}", result);
+        public void AddRoutes(IEndpointRouteBuilder app)
+        {
+            app.MapPost("/api/games", async (ISender sender, Command command) =>
+            {
+                var result = await sender.Send(command);
+                return Results.Created($"api/games/{result.Id}", result);
+            });
+        }
     }
 }

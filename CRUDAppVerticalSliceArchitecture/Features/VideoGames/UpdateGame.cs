@@ -1,7 +1,6 @@
-﻿using CRUDAppVerticalSliceArchitecture.Infrastructure.Contexts;
+﻿using Carter;
+using CRUDAppVerticalSliceArchitecture.Infrastructure.Contexts;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using static CRUDAppVerticalSliceArchitecture.Features.VideoGames.UpdateGame;
 
 namespace CRUDAppVerticalSliceArchitecture.Features.VideoGames;
 
@@ -30,27 +29,18 @@ public static class UpdateGame
             return new Response(videoGame.Id, videoGame.Title, videoGame.Genre, videoGame.ReleaseYear);
         }
     }
-}
 
-[ApiController]
-[Route("api/games")]
-public class UpdateGameController(ISender sender) : ControllerBase
-{
-    [HttpPut("{id}")]
-    public async Task<ActionResult<Response>> UpdateGame(int id, Command command)
+    public class Endpont : ICarterModule
     {
-        if (id != command.Id)
+        public void AddRoutes(IEndpointRouteBuilder app)
         {
-            return BadRequest("ID mismatch");
+            app.MapPut("/api/games/{id}", async (ISender sender, int id, Command command) =>
+            {
+                var updateGame = await sender.Send(command with { Id = id });
+
+                return updateGame is not null ? Results.Ok(updateGame) : 
+                Results.NotFound("Video game with given Id not found.");
+            });
         }
-
-        var result = await sender.Send(command);
-
-        if (result == null)
-        {
-            return NotFound("Video game with given Id not fount.");
-        }
-
-        return Ok(result);
     }
 }

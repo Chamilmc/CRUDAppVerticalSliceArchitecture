@@ -1,3 +1,4 @@
+using Carter;
 using CRUDAppVerticalSliceArchitecture.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -14,6 +15,8 @@ builder.Services.AddDbContext<VideoGameContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+builder.Services.AddCarter();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,5 +31,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapCarter();
 
 app.Run();

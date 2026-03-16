@@ -1,6 +1,6 @@
-﻿using CRUDAppVerticalSliceArchitecture.Infrastructure.Contexts;
+﻿using Carter;
+using CRUDAppVerticalSliceArchitecture.Infrastructure.Contexts;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CRUDAppVerticalSliceArchitecture.Features.VideoGames;
 
@@ -24,21 +24,16 @@ public static class DeleteGame
             return true;
         }
     }
-}
 
-[ApiController]
-[Route("api/games")]
-public class DeleteGameController(ISender sender) : ControllerBase
-{
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteGame(int id)
+    public class Endpont : ICarterModule
     {
-        var result = await sender.Send(new DeleteGame.Command(id));
-        if (!result)
+        public void AddRoutes(IEndpointRouteBuilder app)
         {
-            return NotFound("Video game with given Id not found.");
+            app.MapDelete("/api/games/{id}", async (ISender sender, int id) =>
+            {
+                return await sender.Send(new Command(id)) ? Results.NoContent() :
+                Results.NotFound("Video game with given Id not found.");
+            });
         }
-
-        return NoContent();
     }
 }
